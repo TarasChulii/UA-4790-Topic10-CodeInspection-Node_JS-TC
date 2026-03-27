@@ -1,4 +1,4 @@
-name: SonarQube Analysis
+name: SonarCloud Analysis
 
 on:
   push:
@@ -22,15 +22,14 @@ jobs:
           node-version: '20' # Use your desired Node.js version
 
       - name: Install Dependencies
-        run: npm install
+        run: |
+          npm install
+          npm install -g @sonar/scan
+          npm install --save-dev jest
 
       - name: Run Tests with Coverage
         # This command generates the LCOV report in the 'coverage/' directory
         run: npm test -- --coverage
 
-      - name: Run SonarQube Scanner
-        # Uses the official SonarSource GitHub Action for C, C++, and other languages
-        uses: SonarSource/sonarqube-scan-action@v2.1.0
-        env:
-          # Reference the GitHub secret for the Sonar token
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - name: Run SonarCloud Scanner
+        run: sonar-scanner -Dsonar.token=${{ secrets.SONAR_TOKEN }}
