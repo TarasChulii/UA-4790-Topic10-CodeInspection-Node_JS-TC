@@ -26,7 +26,6 @@ jobs:
       - name: Install Dependencies
         run: |
           npm install
-          npm install -g @sonar/scan
           npm install --save-dev jest
 
       - name: Run Tests with Coverage
@@ -34,10 +33,6 @@ jobs:
         run: npm test -- --coverage
 
       - name: SonarCloud Scan
-        uses: SonarSource/sonarqube-scan-action@v5
+        uses: SonarSource/sonarcloud-github-action@master
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-            -Dsonar.projectKey=ua-4790-tc-sq_ua-4790-topic10-codeinspection-node-js-ga-tc
-            -Dsonar.organization=ua-4790-tc-sq
